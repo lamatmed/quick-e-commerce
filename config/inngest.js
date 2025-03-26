@@ -6,46 +6,62 @@ import User from "@/models/User";
 export const inngest = new Inngest({ id: "quickcart-next" });
 
 // Fonction pour créer un utilisateur
-export const syncUserCreation = inngest.createFunction({ id: 'sync-user-from-clerk' }, { event: 'clerk/user.created' },
-    async({ event }) => {
+// Fonction pour synchroniser la création d'un utilisateur
+export const syncUserCreation = inngest.createFunction({
+    id: 'sync-user-from-clerk'
+}, {
+    event: 'clerk/user.created'
+}, async({ event }) => {
 
-        const { id, first_name, last_name, email_address, image_url } = event.data
+    const { id, first_name, last_name, email_address, image_url } = event.data;
 
+    // Vérification si email_address est défini et contient des éléments
+    const email = email_address && email_address.length > 0 ? email_address[0].email_address : null;
+
+    // Si l'email est présent, on continue
+    if (email) {
         const userData = {
             _id: id,
-            email: email_address[0].email_address,
-            name: first_name + '' + last_name,
+            email: email,
+            name: first_name + ' ' + last_name, // Ajout d'un espace entre le prénom et le nom
             imageUrl: image_url
-        }
-        await connectDB()
-        await User.create(userData)
-
-
+        };
+        await connectDB();
+        await User.create(userData);
+    } else {
+        console.error('Erreur : Aucun email trouvé pour l\'utilisateur avec l\'ID', id);
     }
-)
+
+});
 
 // Fonction pour mettre à jour un utilisateur
 export const syncUserUpdation = inngest.createFunction({
-        id: 'update-user-from-clerk'
-    }, {
-        event: 'clerk/user.updated'
-    },
-    async({ event }) => {
+    id: 'update-user-from-clerk'
+}, {
+    event: 'clerk/user.updated'
+}, async({ event }) => {
 
-        const { id, first_name, last_name, email_address, image_url } = event.data
+    const { id, first_name, last_name, email_address, image_url } = event.data;
 
+    // Vérification si email_address est défini et contient des éléments
+    const email = email_address && email_address.length > 0 ? email_address[0].email_address : null;
+
+    // Si l'email est présent, on continue
+    if (email) {
         const userData = {
             _id: id,
-            email: email_address[0].email_address,
-            name: first_name + '' + last_name,
+            email: email,
+            name: first_name + ' ' + last_name, // Ajout d'un espace entre le prénom et le nom
             imageUrl: image_url
-        }
-        await connectDB()
-        await User.findByIdAndUpdate(id, userData)
-
-
+        };
+        await connectDB();
+        await User.findByIdAndUpdate(id, userData);
+    } else {
+        console.error('Erreur : Aucun email trouvé pour l\'utilisateur avec l\'ID', id);
     }
-);
+
+});
+
 
 // Fonction pour supprimer un utilisateur
 export const syncUserDeletion = inngest.createFunction({
