@@ -71,7 +71,3 @@ export async function POST(request) {
    
 }
 
-export async function GET(request) {
-    const { userId } = getAuth(request);
-    return NextResponse.json({ userId });
-}

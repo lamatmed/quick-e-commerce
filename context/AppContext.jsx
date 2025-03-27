@@ -72,11 +72,12 @@ export const AppContextProvider = ({ children }) => {
       
         if (user) {
             try {
-                const token = getToken()
+                const token = await getToken();
+
                 await  axios.post('/api/cart/update', { cartData }, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
-                toast.success('Article ajouté au panier');
+                toast.success('Mise a jour au panier');
             } catch (error) {
                 
                 toast.error(error.message);
@@ -96,7 +97,8 @@ export const AppContextProvider = ({ children }) => {
         setCartItems(cartData);
         if (user) {
             try {
-                const token = getToken()
+                const token = await getToken();
+
                 await  axios.post('/api/cart/update', { cartData }, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
