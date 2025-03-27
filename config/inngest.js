@@ -23,7 +23,7 @@ export const syncUserCreation = inngest.createFunction({
             email: email,
             name: first_name + ' ' + last_name, // Ajout d'un espace entre le prénom et le nom
             imageUrl: image_url,
-            cartItems: { test: true }
+            cartItems: {}
         };
 
         await connectDB();
