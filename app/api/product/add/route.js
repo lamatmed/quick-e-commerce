@@ -1,4 +1,4 @@
-import { v2 as cloudinary} from "cloudinary";
+import { v2 as cloudinary } from "cloudinary";
 import { getAuth } from "@clerk/nextjs/server";
 
 import { NextResponse } from "next/server";
@@ -12,10 +12,10 @@ cloudinary.config({
 
 export async function POST(request) {
 
-    try{
-        const  {userId }=  getAuth(request)
+    try {
+        const { userId } = getAuth(request)
         console.log(userId)
-      
+
         const fromData = await request.formData()
         const name = fromData.get('name');
         const description = fromData.get('description');
@@ -25,24 +25,24 @@ export async function POST(request) {
 
         const files = await fromData.getAll('images');
 
-        if (!files ||files.length===0){
-            return  NextResponse.json({ success: false, message: 'No  images found'})
-         
+        if (!files || files.length === 0) {
+            return NextResponse.json({ success: false, message: 'No  images found' })
+
         }
 
-        const result = await Promise.all(files.map(async (file) => {
+        const result = await Promise.all(files.map(async(file) => {
             const arrayBuffer = await file.arrayBuffer()
-            const buffer = Buffer.from(arrayBuffer) 
-            return new  Promise((resolve, reject) =>{
-               const stream= cloudinary.uploader.upload_stream({resource_type: 'auto'}, 
-                (error, result) => {
-                    if (error) {
-                        reject(error)
-                    } else {
-                        resolve(result)
-                    }
-                })
-                
+            const buffer = Buffer.from(arrayBuffer)
+            return new Promise((resolve, reject) => {
+                const stream = cloudinary.uploader.upload_stream({ resource_type: 'auto' },
+                    (error, result) => {
+                        if (error) {
+                            reject(error)
+                        } else {
+                            resolve(result)
+                        }
+                    })
+
                 stream.end(buffer)
             })
         }));
@@ -55,19 +55,17 @@ export async function POST(request) {
             name,
             description,
             category,
-            price:Number(price),
-            offerPrice:Number(offerPrice),
+            price: Number(price),
+            offerPrice: Number(offerPrice),
             image,
-            date: Date.now() 
-            
-        })
-        return NextResponse.json({ success: true, message: 'Product added successfully'})
-    }
-    catch(error){
-        return NextResponse.json({ success: false, message:error.message})
-    }
-   
-  
-   
-}
+            date: Date.now()
 
+        })
+        return NextResponse.json({ success: true, message: 'Produit ajouté avec succès' })
+    } catch (error) {
+        return NextResponse.json({ success: false, message: error.message })
+    }
+
+
+
+}

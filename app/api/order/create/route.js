@@ -17,30 +17,30 @@ export async function POST(request) {
             return NextResponse.json({ success: false, message: 'Invalid data' })
         }
         //Calculate amount of items
-        const amount = await items.reduce(async(acca,item)=>{
+        const amount = await items.reduce(async(acca, item) => {
             const product = await Product.findById(item.product);
             return await acca + product.offerPrice * item.quantity
-        },0)
-       await inngest.send({
-            name: 'order/created',
-            data: {
-                userId,
-                amount: amount+ Math.floor(amount*0.02),
-                items,
-                address,
-                date: Date.now(),
-            }
- 
-       })
-       //clear user Cart
-       const user = await User.findById(userId)
-       user.cartItems = {}
+        }, 0)
+        await inngest.send({
+                name: 'order/created',
+                data: {
+                    userId,
+                    amount: amount + Math.floor(amount * 0.02),
+                    items,
+                    address,
+                    date: Date.now(),
+                }
+
+            })
+            //clear user Cart
+        const user = await User.findById(userId)
+        user.cartItems = {}
         await user.save()
-        return NextResponse.json({ success: true, message: 'Order Placed'})
+        return NextResponse.json({ success: true, message: 'Commande passée' })
     } catch (error) {
-       
+
         console.error(error)
-        return NextResponse.json({ success: false, message: error.message})
+        return NextResponse.json({ success: false, message: error.message })
     }
 
 

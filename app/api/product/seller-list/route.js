@@ -9,16 +9,16 @@ export async function GET(request) {
     try {
         const { userId } = getAuth(request);
 
-        const  isSeller = authSeller(userId);
-          if(!isSeller){
-            return NextResponse.json({success: false, message:'Seller not found'})
-          }
-         await connectDB()
-         const products = await Product.find({})
-         return NextResponse.json({success: true, products})
+        const isSeller = authSeller(userId);
+        if (!isSeller) {
+            return NextResponse.json({ success: false, message: 'Vendeur introuvable' })
+        }
+        await connectDB()
+        const products = await Product.find({})
+        return NextResponse.json({ success: true, products })
     } catch (error) {
-          return NextResponse.json({success: false, message:error.message})
+        return NextResponse.json({ success: false, message: error.message })
     }
-   
-   
+
+
 }

@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import { useAuth } from "@clerk/nextjs";
 import { useAppContext } from "@/context/AppContext";
 import { useRouter } from "next/navigation";
+import Footer from "@/components/Footer";
 
 const AddProduct = () => {
   const { getToken } = useAuth();
@@ -78,7 +79,7 @@ const AddProduct = () => {
     <div className="flex-1 min-h-screen flex flex-col justify-between">
       <form onSubmit={handleSubmit} className="md:p-10 p-4 space-y-5 max-w-lg">
         <div>
-          <p className="text-base font-medium">Product Image</p>
+          <p className="text-base font-medium">Image du produit</p>
           <div className="flex flex-wrap items-center gap-3 mt-2">
             {[...Array(4)].map((_, index) => (
               <label key={index} htmlFor={`image${index}`}>
@@ -110,12 +111,12 @@ const AddProduct = () => {
         </div>
         <div className="flex flex-col gap-1 max-w-md">
           <label className="text-base font-medium" htmlFor="product-name">
-            Product Name
+          Nom du produit
           </label>
           <input
             id="product-name"
             type="text"
-            placeholder="Type here"
+            placeholder="Taper ici"
             className="outline-none md:py-2.5 py-2 px-3 rounded border border-gray-500/40"
             onChange={(e) => setName(e.target.value)}
             value={name}
@@ -133,7 +134,7 @@ const AddProduct = () => {
             id="product-description"
             rows={4}
             className="outline-none md:py-2.5 py-2 px-3 rounded border border-gray-500/40 resize-none"
-            placeholder="Type here"
+            placeholder="Taper ici"
             onChange={(e) => setDescription(e.target.value)}
             value={description}
             required
@@ -142,7 +143,7 @@ const AddProduct = () => {
         <div className="flex items-center gap-5 flex-wrap">
           <div className="flex flex-col gap-1 w-32">
             <label className="text-base font-medium" htmlFor="category">
-              Category
+            Catégorie
             </label>
             <select
               id="category"
@@ -150,18 +151,18 @@ const AddProduct = () => {
               onChange={(e) => setCategory(e.target.value)}
               defaultValue={category}
             >
-              <option value="Earphone">Earphone</option>
-              <option value="Headphone">Headphone</option>
-              <option value="Watch">Watch</option>
+              <option value="Écouteur">Écouteur</option>
+              <option value="Casque">Casque </option>
+              <option value="Montre">Montre</option>
               <option value="Smartphone">Smartphone</option>
               <option value="Laptop">Laptop</option>
-              <option value="Camera">Camera</option>
-              <option value="Accessories">Accessories</option>
+              <option value="Caméra">Caméra</option>
+              <option value="Accessoires">Accessoires</option>
             </select>
           </div>
           <div className="flex flex-col gap-1 w-32">
             <label className="text-base font-medium" htmlFor="product-price">
-              Product Price
+            Prix du produit
             </label>
             <input
               id="product-price"
@@ -175,7 +176,7 @@ const AddProduct = () => {
           </div>
           <div className="flex flex-col gap-1 w-32">
             <label className="text-base font-medium" htmlFor="offer-price">
-              Offer Price
+            Prix de l’offre
             </label>
             <input
               id="offer-price"
@@ -192,10 +193,10 @@ const AddProduct = () => {
           type="submit"
           className="px-8 py-2.5 bg-orange-600 text-white font-medium rounded"
         >
-          ADD
+         AJOUTER
         </button>
       </form>
-      {/* <Footer /> */}
+     
     </div>
   );
 };
