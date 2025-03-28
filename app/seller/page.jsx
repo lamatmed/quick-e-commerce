@@ -8,7 +8,8 @@ import toast from "react-hot-toast";
 import { useAuth } from "@clerk/nextjs";
 import { useAppContext } from "@/context/AppContext";
 import { useRouter } from "next/navigation";
-import Footer from "@/components/Footer";
+import Footer from "@/components/seller/Footer";
+
 
 const AddProduct = () => {
   const { getToken } = useAuth();
@@ -196,7 +197,7 @@ const AddProduct = () => {
          AJOUTER
         </button>
       </form>
-     
+     <Footer/>
     </div>
   );
 };
